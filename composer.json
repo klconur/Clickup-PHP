@@ -1,0 +1,24 @@
+{
+    "name": "klconur/clickup-php",
+    "description": "ClickUp API 2 client",
+    "keywords": ["ClickUp", "click-up", "api"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name":  "Onur Kilic",
+            "email": "onurpro@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.6",
+        "guzzlehttp/guzzle": "^6.3|^7.2"
+    },
+    "autoload": {
+      "psr-4": { "ClickUp\\": "src/ClickUp/" }
+    },
+    "require-dev": {
+        "psy/psysh": "^0.9.8"
+    }
+}

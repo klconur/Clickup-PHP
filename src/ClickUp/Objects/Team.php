@@ -74,11 +74,11 @@ class Team extends AbstractObject
     {
 		// last month by default
         $paramDefaults = [
-			'start_date' => now()->subMonth()->startOfMonth()->getTimestampMs(),
-			'end_date' => now()->subMonth()->endOfMonth()->getTimestampMs(),
+			'start_date' => [],
+			'end_date' => [],
 			'assignee' => null, // only workspace owners and admins can use this
-			'include_task_tags' => null,
-			'include_location_names' => null,
+			'include_task_tags' => true,
+			'include_location_names' => true,
 			'space_id' => null,
 			'folder_id' => null,
 			'list_id' => null,

@@ -15,6 +15,9 @@ class Task extends AbstractObject
 	/* @var string $description */
 	private $description;
 
+	/* @var string $textContent */
+	private $textContent;
+
 	/* @var Status $status */
 	private $status;
 
@@ -27,6 +30,9 @@ class Task extends AbstractObject
 	/* @var \DateTimeImmutable $dateUpdated */
 	private $dateUpdated;
 
+	/* @var \DateTimeImmutable $dateClosed */
+	private $dateClosed;
+
 	/* @var TeamMember $creator */
 	private $creator;
 
@@ -35,6 +41,12 @@ class Task extends AbstractObject
 
 	/* @var array $tags */
 	private $tags;
+
+	/* @var array $customFields */
+	private $customFields;
+
+	/* @var string|null $customId */
+	private $customId;
 
 	/* @var string|null $parentTaskId */
 	private $parentTaskId;
@@ -57,11 +69,20 @@ class Task extends AbstractObject
 	/* @var string $timeEstimate */
 	private $timeEstimate;
 
+	/* @var string $timeSpent */
+	private $timeSpent;
+
 	/* @var int $taskListId */
 	private $taskListId;
 
 	/* @var TaskList|null $taskList */
 	private $taskList = null;
+
+	/* @var int $folderId */
+	private $folderId;
+
+	/* @var Folder|null $folder */
+	private $folder;
 
 	/* @var int $projectId */
 	private $projectId;
@@ -69,10 +90,16 @@ class Task extends AbstractObject
 	/* @var Project|null $project */
 	private $project = null;
 
+	/* @var int $listId */
+	private $listId;
+
+	/* @var List|null $list */
+	private $list = null;
+
 	/* @var int $spaceId */
 	private $spaceId;
 
-	/* @var Space|null $project */
+	/* @var Space|null $space */
 	private $space = null;
 
 	/* @var int $teamId */
@@ -100,9 +127,19 @@ class Task extends AbstractObject
 		return $this->name;
 	}
 
+	public function url()
+	{
+		return $this->url;
+	}
+
 	public function description()
 	{
 		return $this->description;
+	}
+
+	public function textContent()
+	{
+		return $this->textContent;
 	}
 
 	public function status()
@@ -125,6 +162,11 @@ class Task extends AbstractObject
 		return $this->dateUpdated;
 	}
 
+	public function dateClosed()
+	{
+		return $this->dateClosed;
+	}
+
 	public function creator()
 	{
 		return $this->creator;
@@ -138,6 +180,16 @@ class Task extends AbstractObject
 	public function tags()
 	{
 		return $this->tags;
+	}
+
+	public function customFields()
+	{
+		return $this->customFields;
+	}
+
+	public function customId()
+	{
+		return $this->customId;
 	}
 
 	public function parentTaskId()
@@ -191,6 +243,11 @@ class Task extends AbstractObject
 		return $this->timeEstimate;
 	}
 
+	public function timeSpent()
+	{
+		return $this->timeSpent;
+	}
+
 	public function taskListId()
 	{
 		return $this->taskListId;
@@ -242,6 +299,38 @@ class Task extends AbstractObject
 		return $this->space;
 	}
 
+	/**
+	 * @return int
+	 */
+	public function folderId()
+	{
+		return $this->folderId;
+	}
+
+	public function folder()
+	{
+		if (is_null($this->folder) && $this->folderId) {
+			$this->folder = $this->client()->folder($this->folderId());
+		}
+		return $this->folder;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function listId()
+	{
+		return $this->listId;
+	}
+
+	public function list()
+	{
+		if (is_null($this->list) && $this->listId) {
+			$this->list = $this->client()->list($this->listId());
+		}
+		return $this->list;
+	}
+
 	public function teamId()
 	{
 		return $this->teamId;
@@ -284,7 +373,8 @@ class Task extends AbstractObject
 	{
 		$this->id = $array['id'];
 		$this->name = $array['name'];
-		$this->description = (string) $array['text_content'];
+		$this->description = (string) $array['description'];
+		$this->textContent = (string) $array['text_content'];
 		$this->status = new Status(
 			$this->client(),
 			$array['status']
@@ -292,6 +382,7 @@ class Task extends AbstractObject
 		$this->orderindex = $array['orderindex'];
 		$this->dateCreated = $this->getDate($array, 'date_created');
 		$this->dateUpdated = $this->getDate($array, 'date_updated');
+		$this->dateClosed = $this->getDate($array, 'date_closed');
 		$this->creator = new User(
 			$this->client(),
 			$array['creator']
@@ -303,12 +394,15 @@ class Task extends AbstractObject
 
 		// TODO TagCollection
 		$this->tags = $array['tags'];
+		$this->customFields = $array['custom_fields'];
+		$this->customId = $array['custom_id'];
 		$this->parentTaskId = $array['parent'];
 		$this->priority = $array['priority'];
 		$this->dueDate = $this->getDate($array, 'due_date');
 		$this->startDate = $this->getDate($array, 'start_date');
 		$this->points = isset($array['point']) ? $array['point'] : null;
 		$this->timeEstimate = isset($array['time_estimate']) ? $array['time_estimate'] : null;
+		$this->timeSpent = isset($array['time_spent']) ? $array['time_spent'] : null;
 		$this->taskListId = $array['list']['id'];
 		$this->projectId = $array['project']['id'];
 		$this->spaceId = $array['space']['id'];

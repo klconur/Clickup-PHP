@@ -66,6 +66,7 @@ class TaskFinder
 		return $this;
 	}
 
+	// FIXME add(page=0) then add(page=1) produces page=[0,1] could it be changed to overwrite?
 	public function addParams($params)
 	{
 		$this->params = array_merge_recursive($this->params, $params);

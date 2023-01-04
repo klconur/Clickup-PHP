@@ -161,6 +161,10 @@ class TimeEntry extends AbstractObject
 			$this->client(),
 			$array['user']
 		);
+		$this->task = new Task(
+			$this->client(),
+			$array['task']
+		);
 		$this->billable = $array['billable'];
 		$this->start = $array['start'];
 		$this->end = $array['end'];
@@ -173,6 +177,27 @@ class TimeEntry extends AbstractObject
 		$this->space_id = $array['task_location']['space_id'];
 		$this->folder_id = $array['task_location']['folder_id'];
 		$this->list_id = $array['task_location']['list_id'];
+		$this->space = isset($array['task_location']['space_id']) ? new Space(
+			$this->client(),
+			[
+				'id' => $array['task_location']['space_id'],
+				'name' => isset($array['task_location']['space_name']) ? $array['task_location']['space_name'] : null,
+			]
+		) : null;
+		$this->folder = isset($array['task_location']['folder_id']) ? new Folder(
+			$this->client(),
+			[
+				'id' => $array['task_location']['folder_id'],
+				'name' => isset($array['task_location']['folder_name']) ? $array['task_location']['folder_name'] : null,
+			]
+		) : null;
+		$this->list = isset($array['task_location']['list_id']) ? new TaskList(
+			$this->client(),
+			[
+				'id' => $array['task_location']['list_id'],
+				'name' => isset($array['task_location']['list_name']) ? $array['task_location']['list_name'] : null,
+			]
+		) : null;
 		$this->task_tags = $array['task_tags'] ?? [];
 		$this->task_url = $array['task_url'];
 	}

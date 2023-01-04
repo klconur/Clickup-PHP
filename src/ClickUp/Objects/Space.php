@@ -15,6 +15,12 @@ class Space extends AbstractObject
 	/* @var bool $isPrivate */
 	private $isPrivate;
 
+	/* @var FolderCollection $folders */
+	private $folders;
+
+	/* @var TaskListCollection $taskLists */
+	private $taskLists;
+
 	/* @var StatusCollection $statuses */
 	private $statuses;
 
@@ -129,17 +135,48 @@ class Space extends AbstractObject
 	}
 
 	/**
+	 * @return FolderCollection
+	 */
+	public function folders()
+	{
+		if (!$this->folders) {
+			$this->folders = new FolderCollection(
+				$this->client(),
+				$this->client()->get("space/{$this->id()}/folder")['folders'],
+			);
+		}
+
+		return $this->folders;
+	}
+
+	/**
+	 * folderless lists
+	 * @return TaskListCollection
+	 */
+	public function taskLists()
+	{
+		if (!$this->taskLists) {
+			$this->taskLists = new TaskListCollection(
+				$this->client(),
+				$this->client()->get("space/{$this->id()}/list")['lists'],
+			);
+		}
+
+		return $this->taskLists;
+	}
+
+	/**
 	 * @param array $array
 	 */
 	protected function fromArray($array)
 	{
 		$this->id = $array['id'];
-		$this->name = $array['name'];
-		$this->isPrivate = $array['private'];
-		$this->statuses = new StatusCollection(
+		$this->name = isset($array['name']) ? $array['name'] : null;
+		$this->isPrivate = isset($array['private']) ? $array['private'] : false;
+		$this->statuses = isset($array['statuses']) ? new StatusCollection(
 			$this->client(),
 			$array['statuses']
-		);
+		) : null;
 		$this->clickApps = [
 			'multiple_assignees' => isset($array['multiple_assignees']) ? $array['multiple_assignees'] : false,
 			'due_dates' => isset($array['features']['due_dates']['enabled']) ? $array['features']['due_dates']['enabled'] : false,

@@ -87,7 +87,7 @@ class Team extends AbstractObject
 			'team_id' => null,
         ];
 
-        $params = array_merge($params, $paramDefaults);
+        $params = array_merge($paramDefaults, $params);
 
         if (is_null($this->timeEntries)) {
             $this->timeEntries = new TimeEntryCollection(

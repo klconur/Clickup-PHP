@@ -111,9 +111,9 @@ class Client
 	 * @param array  $params
 	 * @return mixed
 	 */
-	public function get($method, $params = [])
+	public function get($uri, $params = [])
 	{
-		$response = $this->guzzleClient->request('GET', $method, ['query' => $params]);
+		$response = $this->guzzleClient->request('GET', $uri, ['query' => $params]);
 		return \GuzzleHttp\json_decode($response->getBody(), true);
 	}
 

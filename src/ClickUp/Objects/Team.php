@@ -72,29 +72,27 @@ class Team extends AbstractObject
      */
     public function timeEntries($params = [])
     {
-		// last month by default
+        // last month by default
         $paramDefaults = [
-			'start_date' => [],
-			'end_date' => [],
-			'assignee' => null, // only workspace owners and admins can use this
-			'include_task_tags' => true,
-			'include_location_names' => true,
-			'space_id' => null,
-			'folder_id' => null,
-			'list_id' => null,
-			'task_id' => null,
-			'custom_task_ids' => null,
-			'team_id' => null,
+            'start_date' => [],
+            'end_date' => [],
+            'assignee' => null, // only workspace owners and admins can use this
+            'include_task_tags' => true,
+            'include_location_names' => true,
+            'space_id' => null,
+            'folder_id' => null,
+            'list_id' => null,
+            'task_id' => null,
+            'custom_task_ids' => null,
+            'team_id' => null,
         ];
 
         $params = array_merge($paramDefaults, $params);
 
-        if (is_null($this->timeEntries)) {
-            $this->timeEntries = new TimeEntryCollection(
-                $this->client(),
-                $this->client()->get("team/{$this->id()}/time_entries", $params)['data']
-            );
-        }
+        $this->timeEntries = new TimeEntryCollection(
+            $this->client(),
+            $this->client()->get("team/{$this->id()}/time_entries", $params)['data']
+        );
 
         return $this->timeEntries;
     }

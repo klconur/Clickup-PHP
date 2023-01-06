@@ -139,7 +139,7 @@ class TimeEntry extends AbstractObject
 
 	public function task()
 	{
-		if (is_null($this->task)) {
+		if (is_null($this->task) && $this->task_id) {
 			$this->task = new Task(
 				$this->client(),
 				$this->client()->get("task/{$this->task_id}")
@@ -155,16 +155,16 @@ class TimeEntry extends AbstractObject
 	protected function fromArray($array)
 	{
 		$this->id = $array['id'];
-		$this->task_id = $array['task']['id'];
+		$this->task_id = isset($array['task']['id']) ? $array['task']['id'] : null;
 		$this->wid = $array['wid'];
 		$this->user = new User(
 			$this->client(),
 			$array['user']
 		);
-		$this->task = new Task(
+		$this->task = isset($array['task']['id']) ? new Task(
 			$this->client(),
 			$array['task']
-		);
+		) : null;
 		$this->billable = $array['billable'];
 		$this->start = $array['start'];
 		$this->end = $array['end'];
@@ -173,10 +173,10 @@ class TimeEntry extends AbstractObject
 		$this->tags = $array['tags'];
 		$this->source = $array['source'];
 		$this->at = $array['at'];
-		$this->task_location = $array['task_location'];
-		$this->space_id = $array['task_location']['space_id'];
-		$this->folder_id = $array['task_location']['folder_id'];
-		$this->list_id = $array['task_location']['list_id'];
+		$this->task_location = isset($array['task_location']) ? $array['task_location'] : null;
+		$this->space_id = isset($array['task_location']['space_id']) ? $array['task_location']['space_id'] : null;
+		$this->folder_id = isset($array['task_location']['folder_id']) ? $array['task_location']['folder_id'] : null;
+		$this->list_id = isset($array['task_location']['list_id']) ? $array['task_location']['list_id'] : null;
 		$this->space = isset($array['task_location']['space_id']) ? new Space(
 			$this->client(),
 			[
@@ -199,6 +199,6 @@ class TimeEntry extends AbstractObject
 			]
 		) : null;
 		$this->task_tags = $array['task_tags'] ?? [];
-		$this->task_url = $array['task_url'];
+		$this->task_url = isset($array['task_url']) ? $array['task_url'] : null;
 	}
 }

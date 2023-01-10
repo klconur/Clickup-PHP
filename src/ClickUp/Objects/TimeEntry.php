@@ -166,13 +166,13 @@ class TimeEntry extends AbstractObject
 			$array['task']
 		) : null;
 		$this->billable = $array['billable'];
-		$this->start = $array['start'];
-		$this->end = $array['end'];
+		$this->start = $this->getDate($array, 'start');
+		$this->end = $this->getDate($array, 'end');
 		$this->duration = $array['duration'];
 		$this->description = $array['description'];
 		$this->tags = $array['tags'];
 		$this->source = $array['source'];
-		$this->at = $array['at'];
+		$this->at = $this->getDate($array, 'at');
 		$this->task_location = isset($array['task_location']) ? $array['task_location'] : null;
 		$this->space_id = isset($array['task_location']['space_id']) ? $array['task_location']['space_id'] : null;
 		$this->folder_id = isset($array['task_location']['folder_id']) ? $array['task_location']['folder_id'] : null;
@@ -200,5 +200,20 @@ class TimeEntry extends AbstractObject
 		) : null;
 		$this->task_tags = $array['task_tags'] ?? [];
 		$this->task_url = isset($array['task_url']) ? $array['task_url'] : null;
+	}
+
+	/**
+	 * @param $array
+	 * @param $key
+	 * @return \DateTimeImmutable|null
+	 * @throws \Exception
+	 */
+	private function getDate($array, $key)
+	{
+		if(!isset($array[$key])) {
+			return null;
+		}
+		$unixTime = substr($array[$key], 0, 10);
+		return new \DateTimeImmutable("@$unixTime");
 	}
 }

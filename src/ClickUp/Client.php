@@ -13,20 +13,10 @@ class Client
 {
 	private $guzzleClient;
 
-	public function __construct($apiToken)
+	public function __construct($apiToken, $client = null)
 	{
-		$stack = \GuzzleHttp\HandlerStack::create();
-		// my middleware
-		$stack->push(\GuzzleHttp\Middleware::mapRequest(function (\Psr\Http\Message\RequestInterface $request) {
-		    $contentsRequest = (string) $request->getBody();
-		    //var_dump($contentsRequest);
-
-		    return $request;
-		}));
-
-		$this->guzzleClient = new \GuzzleHttp\Client([
+		$this->guzzleClient = $client ?: new \GuzzleHttp\Client([
 			'base_uri' => 'https://api.clickup.com/api/v2/',
-			'handler' => $stack,
 			'headers' => [
 				'Authorization' => $apiToken,
 			]
@@ -131,24 +121,24 @@ class Client
 			$result = \GuzzleHttp\json_decode($this->guzzleClient->request('POST', $method, ['json' => $body], ['debug' => true])->getBody(), true);
 			//var_dump($result);
 			//echo "<br>------------------";
-		}
-		catch (\GuzzleHttp\Exception\ClientException $e) {
-    		$response = $e->getResponse();
-    		$responseBodyAsString = $response->getBody()->getContents();
-    		$this->var_error_log("<br>------------------");
-    		$this->var_error_log($response);
-    		$this->var_error_log("<br>------------------");
-    		$this->var_error_log($responseBodyAsString);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$response = $e->getResponse();
+			$responseBodyAsString = $response->getBody()->getContents();
+			$this->var_error_log("<br>------------------");
+			$this->var_error_log($response);
+			$this->var_error_log("<br>------------------");
+			$this->var_error_log($responseBodyAsString);
 		}
 		return $result;
 	}
 
-	private function var_error_log( $object=null ){
-	    ob_start();                    // start buffer capture
-	    var_dump( $object );           // dump the values
-	    $contents = ob_get_contents(); // put the buffer into a variable
-	    ob_end_clean();                // end capture
-	    error_log( $contents );        // log contents of the result of var_dump( $object )
+	private function var_error_log($object = null)
+	{
+		ob_start();                    // start buffer capture
+		var_dump($object);           // dump the values
+		$contents = ob_get_contents(); // put the buffer into a variable
+		ob_end_clean();                // end capture
+		error_log($contents);        // log contents of the result of var_dump( $object )
 	}
 
 	/**

@@ -12,11 +12,14 @@ use ClickUp\Client;
  */
 class TaskCollection extends AbstractObjectCollection
 {
-	public function __construct(Client $client, $array, $teamId)
+	public function __construct(Client $client, $array, $teamId = null)
 	{
 		parent::__construct($client, $array);
-		foreach ($this as $task) {
-			$task->setTeamId($teamId);
+
+		if ($teamId) {
+			foreach ($this as $task) {
+				$task->setTeamId($teamId);
+			}
 		}
 	}
 

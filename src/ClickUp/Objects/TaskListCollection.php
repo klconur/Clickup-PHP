@@ -2,6 +2,8 @@
 
 namespace ClickUp\Objects;
 
+use ClickUp\Client;
+
 /**
  * @method TaskList   getByKey(int $listId)
  * @method TaskList   getByName(string $listName)
@@ -10,12 +12,9 @@ namespace ClickUp\Objects;
  */
 class TaskListCollection extends AbstractObjectCollection
 {
-	public function __construct(Project $project, $array)
+	public function __construct(Client $client, $array)
 	{
-		parent::__construct($project->client(), $array);
-		foreach ($this as $taskList) {
-			$taskList->setProject($project);
-		}
+		parent::__construct($client, $array);
 	}
 
 	/**

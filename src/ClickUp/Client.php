@@ -8,6 +8,8 @@ use ClickUp\Objects\Team;
 use ClickUp\Objects\TaskList;
 use ClickUp\Objects\TeamCollection;
 use ClickUp\Objects\User;
+use ClickUp\Objects\Space;
+use ClickUp\Objects\Task;
 
 class Client
 {
@@ -59,6 +61,30 @@ class Client
 		return new Team(
 			$this,
 			$this->get("team/$teamId")['team']
+		);
+	}
+
+	/**
+	 * @param int $taskId
+	 * @return Task
+	 */
+	public function task($taskId)
+	{
+		return new Task(
+			$this,
+			$this->get("task/$taskId")['task']
+		);
+	}
+
+	/**
+	 * @param int $spaceId
+	 * @return Space
+	 */
+	public function space($spaceId)
+	{
+		return new Space(
+			$this,
+			$this->get("space/$spaceId")['space']
 		);
 	}
 

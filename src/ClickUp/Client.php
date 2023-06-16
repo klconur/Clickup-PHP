@@ -84,7 +84,7 @@ class Client
 	{
 		return new Space(
 			$this,
-			$this->get("space/$spaceId")['space']
+			$this->get("space/$spaceId")
 		);
 	}
 

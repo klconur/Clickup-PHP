@@ -16,6 +16,12 @@ class Folder extends AbstractObject
 	/* @var TaskListCollection $taskLists */
 	private $taskLists;
 
+	/* @var int $spaceId */
+	private $spaceId;
+
+	/* @var Space $space */
+	private $space;
+
 	/**
 	 * @return int
 	 */
@@ -38,6 +44,22 @@ class Folder extends AbstractObject
 	public function hidden()
 	{
 		return $this->hidden;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function spaceId()
+	{
+		return $this->spaceId;
+	}
+
+	/**
+	 * @return Space
+	 */
+	public function space()
+	{
+		return $this->space;
 	}
 
 	/**

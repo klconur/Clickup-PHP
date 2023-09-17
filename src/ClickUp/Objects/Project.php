@@ -148,10 +148,10 @@ class Project extends AbstractObject
 	{
 		$this->id = $array['id'];
 		$this->name = $array['name'];
-		$this->taskLists = new TaskListCollection(
-			$this,
+		$this->taskLists = isset($array['lists']) ? new TaskListCollection(
+			$this->client(),
 			$array['lists']
-		);
+		) : null;
 		$this->overrideStatuses = isset($array['override_statuses']) ? $array['override_statuses'] : false;
 		if (isset($array['override_statuses']) and $array['override_statuses']) {
 			$this->statuses = new StatusCollection(

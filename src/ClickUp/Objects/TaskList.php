@@ -15,12 +15,6 @@ class TaskList extends AbstractObject
 	/* @var Project $project */
 	private $project;
 
-	public function __construct($taskId, $client)
-	{
-		$this->id = $taskId;
-		$this->setClient($client);
-	}
-
 	/**
 	 * @return int
 	 */

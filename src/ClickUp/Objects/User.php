@@ -12,14 +12,29 @@ class User extends AbstractObject
 	/* @var string $username */
 	private $username;
 
-	/* @var string $color */
-	private $color;
+	/* @var string $email */
+	private $email;
 
-	/* @var string $profilePicture */
-	private $profilePicture;
+	/* @var string|null $color */
+	private $color = null;
 
-	/* @var string|null $initials */
-	private $initials = null;
+	/* @var string|null $profilePicture */
+	private $profilePicture = null;
+
+	/* @var string $initials */
+	private $initials;
+
+	/* @var int $role */
+	private $role;
+
+	/* @var string|null $last_active */
+	private $last_active = null;
+
+	/* @var string|null $date_joined */
+	private $date_joined = null;
+
+	/* @var string $date_invited */
+	private $date_invited;
 
 	/**
 	 * @return int
@@ -40,13 +55,21 @@ class User extends AbstractObject
 	/**
 	 * @return string
 	 */
+	public function email()
+	{
+		return $this->email;
+	}
+
+	/**
+	 * @return string|null
+	 */
 	public function color()
 	{
 		return $this->color;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function profilePicture()
 	{
@@ -54,11 +77,43 @@ class User extends AbstractObject
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
 	public function initials()
 	{
 		return $this->initials;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function role()
+	{
+		return $this->role;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function lastActive()
+	{
+		return $this->lastActive;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function dateJoined()
+	{
+		return $this->dateJoined;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function dateInvited()
+	{
+		return $this->dateInvited;
 	}
 
 	/**
@@ -68,8 +123,13 @@ class User extends AbstractObject
 	{
 		$this->id = $array['id'];
 		$this->username = $array['username'];
-		$this->color = $array['color'];
-		$this->profilePicture = $array['profilePicture'];
+		$this->email = $array['email'];
+		$this->color = isset($array['color']) ? $array['color'] : null;
+		$this->profilePicture = isset($array['profilePicture']) ? $array['profilePicture'] : null;
 		$this->initials = isset($array['initials']) ? $array['initials'] : null;
+		$this->role = isset($array['role']) ? $array['role'] : null;
+		$this->last_active = isset($array['last_active']) ? $array['last_active'] : null;
+		$this->date_joined = isset($array['date_joined']) ? $array['date_joined'] : null;
+		$this->date_invited = isset($array['date_invited']) ? $array['date_invited'] : null;
 	}
 }

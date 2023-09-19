@@ -123,7 +123,7 @@ class Space extends AbstractObject
 	 */
 	public function teamId()
 	{
-		return $this->team()->id();
+		return $this->teamId;
 	}
 
 	/**

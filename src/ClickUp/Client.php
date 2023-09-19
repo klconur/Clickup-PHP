@@ -10,6 +10,7 @@ use ClickUp\Objects\TeamCollection;
 use ClickUp\Objects\User;
 use ClickUp\Objects\Space;
 use ClickUp\Objects\Task;
+use ClickUp\Objects\Folder;
 
 class Client
 {
@@ -72,7 +73,7 @@ class Client
 	{
 		return new Task(
 			$this,
-			$this->get("task/$taskId")['task']
+			$this->get("task/$taskId")
 		);
 	}
 
@@ -84,7 +85,7 @@ class Client
 	{
 		return new Space(
 			$this,
-			$this->get("space/$spaceId")['space']
+			$this->get("space/$spaceId")
 		);
 	}
 
@@ -102,6 +103,18 @@ class Client
 	}
 
 	/**
+	 * @param int $folderId
+	 * @return Folder
+	 */
+	public function folder($folderId)
+	{
+		return new Folder(
+			$this,
+			$this->get("folder/$folderId")
+		);
+	}
+
+	/**
 	 * @param int $listId
 	 * @return List
 	 */
@@ -109,7 +122,7 @@ class Client
 	{
 		return new TaskList(
 			$this,
-			$this->get("list/$listId")['list']
+			$this->get("list/$listId")
 		);
 	}
 

@@ -15,6 +15,28 @@ class TaskList extends AbstractObject
 	/* @var Project $project */
 	private $project;
 
+	/* @var int $spaceId */
+	private $spaceId;
+
+	/* @var Space $space */
+	private $space;
+
+	/**
+	 * @return int
+	 */
+	public function spaceId()
+	{
+		return $this->spaceId;
+	}
+
+	/**
+	 * @return Space
+	 */
+	public function space()
+	{
+		return $this->space;
+	}
+
 	/**
 	 * @return int
 	 */
